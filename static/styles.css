@@ -1,0 +1,119 @@
+/* Base styles for header and footer */
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 1rem;
+    text-align: center;
+    position: relative;
+}
+
+header a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    margin-right: 15px;
+}
+
+header form {
+    display: inline-block;
+}
+
+header input[type="text"] {
+    padding: 0.5rem;
+    font-size: 1rem;
+}
+
+header button {
+    padding: 0.5rem;
+    font-size: 1rem;
+    background-color: #555;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+header button:hover {
+    background-color: #666;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    padding: 1rem;
+    text-align: center;
+}
+
+/* Styling for top movies section */
+.top-movies {
+    padding: 2rem;
+    background-color: #f4f4f4;
+}
+
+.movie-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.movie-card {
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 1rem;
+    transition: transform 0.3s;
+}
+
+.movie-card img {
+    width: 100%;
+    height: auto;
+    border-bottom: 2px solid #ddd;
+}
+
+.movie-card h4 {
+    margin: 0.5rem 0;
+    font-size: 1.2rem;
+}
+
+.movie-card a {
+    text-decoration: none;
+    color: #007BFF;
+}
+
+.movie-card a:hover {
+    text-decoration: underline;
+}
+
+.movie-card:hover {
+    transform: scale(1.05);
+}
+
+/* Styling for movie details */
+.movie-details {
+    text-align: center;
+    padding: 2rem;
+    background-color: #f4f4f4;
+}
+
+.large-image {
+    max-width: 50%;
+    height: auto;
+    margin-bottom: 1rem;
+}
+
+/* Styling for recommended movies section */
+.recommendations {
+    padding: 2rem;
+}
+
+.recommendation-list {
+    display: flex;
+    overflow-x: auto;
+    gap: 1rem;
+}
+
+.recommendation-list .movie-card {
+    min-width: 200px;
+    flex: 0 0 auto;
+}
