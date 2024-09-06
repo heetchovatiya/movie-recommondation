@@ -6,43 +6,95 @@
     <title>Movie Recommendation App</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <style>
-        /* Internal CSS for base layout */
-        header {
-            background-color: #333;
-            color: #fff;
-            padding: 1rem;
-            text-align: center;
-        }
-        header a {
-            color: #fff;
-            text-decoration: none;
-            font-weight: bold;
-            margin-right: 15px;
-        }
-        header form {
-            display: inline-block;
-        }
-        header input[type="text"] {
-            padding: 0.5rem;
-            font-size: 1rem;
-        }
-        header button {
-            padding: 0.5rem;
-            font-size: 1rem;
-            background-color: #555;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-        }
-        header button:hover {
-            background-color: #666;
-        }
-        footer {
-            background-color: #333;
-            color: #fff;
-            padding: 1rem;
-            text-align: center;
-        }
+       /* Base Layout */
+
+
+       header button {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    background: linear-gradient(45deg, #e74c3c, #c0392b); /* Red Gradient */
+    color: #fff;
+    border: 2px solid #e74c3c; /* Matching Red Border */
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease, border-color 0.3s ease;
+}
+
+header button:hover {
+    background: linear-gradient(45deg, #c0392b, #e74c3c); /* Darker Red Gradient */
+    border-color: #c0392b; /* Darker Red Border */
+    transform: scale(1.05);
+}
+
+header button:active {
+    background: linear-gradient(45deg, #c0392b, #e74c3c); /* Darker Red Gradient */
+    border-color: #e74c3c; /* Original Red Border */
+    transform: scale(0.95);
+}
+
+body {
+    background-color: #2c3e50; /* Dark Slate Blue */
+    color: #ecf0f1; /* Light Gray */
+    font-family: Arial, sans-serif;
+}
+
+header {
+    background-color: #2c3e50; /* Dark Slate Blue */
+    color: #ecf0f1; /* Light Gray */
+    padding: 1rem;
+    text-align: center;
+    border-bottom: 2px solid #34495e; /* Slightly Lighter Dark Grayish Blue */
+}
+
+header a {
+    color: #ecf0f1; /* Light Gray */
+    text-decoration: none;
+    font-weight: bold;
+    margin-right: 15px;
+}
+
+header form {
+    display: inline-block;
+    margin-top: 1rem;
+}
+
+header input[type="text"] {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 2px solid #34495e; /* Slightly Lighter Dark Grayish Blue */
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+header input[type="text"]:focus {
+    border-color: #ecf0f1; /* Light Gray */
+}
+
+header button {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    background: linear-gradient(45deg, #e74c3c, #c0392b); /* Red Gradient */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+header button:hover {
+    background: linear-gradient(45deg, #c0392b, #e74c3c); /* Darker Red Gradient */
+    transform: scale(1.05);
+}
+
+footer {
+    background-color: #2c3e50; /* Dark Slate Blue */
+    color: #ecf0f1; /* Light Gray */
+    padding: 1rem;
+    text-align: center;
+    border-top: 2px solid #34495e; /* Slightly Lighter Dark Grayish Blue */
+}
+
     </style>
 </head>
 <body>

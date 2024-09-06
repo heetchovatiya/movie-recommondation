@@ -55,7 +55,7 @@ footer {
     gap: 1rem;
 }
 
-.movie-card {
+/* .movie-card {
     background: #fff;
     border-radius: 8px;
     overflow: hidden;
@@ -94,7 +94,7 @@ footer {
     text-align: center;
     padding: 2rem;
     background-color: #f4f4f4;
-}
+} */
 
 .large-image {
     max-width: 50%;
@@ -117,3 +117,110 @@ footer {
     min-width: 200px;
     flex: 0 0 auto;
 }
+/* Movie Card Styles */
+.movie-card {
+    background-color: #fff; /* White background for contrast */
+    border: 2px solid #2c3e50; /* Dark Slate Blue border for visibility */
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Enhanced shadow for better visibility */
+    text-align: center;
+    padding: 1rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.movie-card img {
+    width: 100%;
+    height: auto;
+    border-bottom: 2px solid #ddd; /* Light border under the image */
+}
+
+.movie-card h4 {
+    color: #000; /* Black color for the movie title */
+    font-size: 1.2rem;
+    margin: 0.5rem 0;
+}
+
+.movie-card p {
+    color: #555; /* Dark Gray for the release year */
+    font-size: 1rem;
+    margin: 0.5rem 0;
+}
+
+.movie-card a {
+    color: #3498db; /* Bright Blue for links */
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-block;
+    margin-top: 0.5rem;
+    transition: color 0.3s ease, text-decoration 0.3s ease;
+}
+
+.movie-card a:hover {
+    color: #2980b9; /* Darker Blue on hover */
+    text-decoration: underline;
+}
+
+.movie-card:hover {
+    transform: scale(1.05); /* Slight zoom effect on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
+}
+
+
+
+
+
+
+  /* Movie Details Section */
+.movie-details {
+    background-color: #ffffff; /* White background for clear readability */
+    color: #333333; /* Dark Gray for text */
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+    max-width: 1200px;
+    margin: auto;
+    text-align: center;
+}
+
+.movie-details h2 {
+    color: #2c3e50; /* Dark Slate Blue for headings */
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.movie-details img.large-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    border: 2px solid #2c3e50; /* Dark Slate Blue border */
+    margin-bottom: 1rem;
+}
+
+.movie-details p {
+    font-size: 1.1rem;
+    margin: 0.5rem 0;
+}
+
+.movie-details p strong {
+    color: #2c3e50; /* Dark Slate Blue for labels */
+}
+
+.recommendations {
+    margin-top: 2rem;
+}
+
+.recommendations h3 {
+    color: #2c3e50; /* Dark Slate Blue for recommendations heading */
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.recommendation-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+}
+
+
