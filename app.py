@@ -34,27 +34,60 @@ def search_movies():
         return render_template('search_results.html', query=query, movies=search_results)
     return redirect(url_for('home'))
 
+# @app.route('/movie/<int:movie_index>')
+# def movie_details(movie_index):
+#     if 0 <= movie_index < len(movies_df):
+#         # Get the specific movie
+#         movie = movies_df.iloc[movie_index]
+        
+#         # Get recommendations (this should return movies with their original indices)
+#         recommended_movies = get_movie_recommendations(movie_index)
+        
+#         # Ensure the recommended movies contain the correct Index field from the original dataset
+#         return render_template('movie_details.html', movie=movie, recommended_movies=recommended_movies)
+    
+#     return redirect(url_for('home'))
+
+
 @app.route('/movie/<int:movie_index>')
 def movie_details(movie_index):
+    # Check if the movie index is valid
     if 0 <= movie_index < len(movies_df):
-        # Get the specific movie
-        movie = movies_df.iloc[movie_index]
-        
-        # Get recommendations (this should return movies with their original indices)
+        movie = movies_df.iloc[movie_index]  # Fetch the movie using the index
+
+        # Get recommended movies (this function should return movies with their original indices)
         recommended_movies = get_movie_recommendations(movie_index)
-        
-        # Ensure the recommended movies contain the correct Index field from the original dataset
+
+        # Pass the movie and recommended movies to the template
         return render_template('movie_details.html', movie=movie, recommended_movies=recommended_movies)
-    
+
+    # If index is invalid, redirect to home page
     return redirect(url_for('home'))
 
+
+# def get_movie_recommendations(movie_index):
+#     sim_scores = list(enumerate(cosine_sim[movie_index]))
+#     sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
+#     sim_scores = sim_scores[1:11]  # Exclude the movie itself
+#     movie_indices = [i[0] for i in sim_scores]
+#     recommended_movies = movies_df.iloc[movie_indices]
+#     return recommended_movies
+
+
 def get_movie_recommendations(movie_index):
-    sim_scores = list(enumerate(cosine_sim[movie_index]))
-    sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
-    sim_scores = sim_scores[1:11]  # Exclude the movie itself
-    movie_indices = [i[0] for i in sim_scores]
-    recommended_movies = movies_df.iloc[movie_indices]
-    return recommended_movies
+    movie = movies_df.iloc[movie_index]
+    recommended_movies = movies_df[
+        (movies_df['Genre'] == movie['Genre']) & 
+        (movies_df['IMDB_Rating'] >= movie['IMDB_Rating'])
+    ].head(10)
+
+    # Convert each row to a dictionary including the index
+    recommended_movies_dict = recommended_movies.to_dict(orient='records')
+    for i, movie in enumerate(recommended_movies_dict):
+        movie['Index'] = recommended_movies.index[i]  # Add the original index to each movie
+
+    return recommended_movies_dict
+
 
 @app.route('/movies/<int:page>')
 def movies_page(page):

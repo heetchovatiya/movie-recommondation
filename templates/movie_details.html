@@ -1,26 +1,25 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <section class="movie-details">
-        <h2>{{ movie.Series_Title }}</h2>
-        <img src="{{ movie.Poster_Link }}" alt="{{ movie.Series_Title }}" class="large-image">
-        <p><strong>Released Year:</strong> {{ movie.Released_Year }}</p>
-        <p><strong>Director:</strong> {{ movie.Director }}</p>
-        <p><strong>Genre:</strong> {{ movie.Genre }}</p>
-        <p><strong>Overview:</strong> {{ movie.Overview }}</p>
+<section class="movie-details">
+    <h2>{{ movie.Series_Title }}</h2>
+    <img src="{{ movie.Poster_Link }}" alt="{{ movie.Series_Title }}">
+    <p><strong>Released Year:</strong> {{ movie.Released_Year }}</p>
+    <p><strong>IMDB Rating:</strong> {{ movie.IMDB_Rating }}</p>
+    <p><strong>Overview:</strong> {{ movie.Overview }}</p>
+    <p><strong>Director:</strong> {{ movie.Director }}</p>
+    <p><strong>Stars:</strong> {{ movie.Star1 }}, {{ movie.Star2 }}, {{ movie.Star3 }}, {{ movie.Star4 }}</p>
 
-        <section class="recommendations">
-            <h3>Recommended Movies</h3>
-            <div class="recommendation-list">
-                {% for movie in recommended_movies.itertuples() %}
-                    <div class="movie-card">
-                        <img src="{{ movie.Poster_Link }}" alt="{{ movie.Series_Title }}">
-                        <h4>{{ movie.Series_Title }}</h4>
-                        <p>{{ movie.Released_Year }}</p>
-                        <a href="{{ url_for('movie_details', movie_index=loop.index0) }}">View Details</a>
-                    </div>
-                {% endfor %}
+    <h3>Recommended Movies</h3>
+    <div class="movie-grid">
+        {% for rec_movie in recommended_movies %}
+            <div class="movie-card">
+                <img src="{{ rec_movie.Poster_Link }}" alt="{{ rec_movie.Series_Title }}">
+                <h4>{{ rec_movie.Series_Title }}</h4>
+                <!-- Use the Index field from the dictionary -->
+                <a href="{{ url_for('movie_details', movie_index=rec_movie.Index) }}">View Details</a>
             </div>
-        </section>
-    </section>
+        {% endfor %}
+    </div>
+</section>
 {% endblock %}
