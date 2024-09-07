@@ -2,13 +2,35 @@
 
 {% block content %}
 <section class="movie-details">
-    <h2>{{ movie.Series_Title }}</h2>
-    <img src="{{ movie.Poster_Link }}" alt="{{ movie.Series_Title }}">
-    <p><strong>Released Year:</strong> {{ movie.Released_Year }}</p>
-    <p><strong>IMDB Rating:</strong> {{ movie.IMDB_Rating }}</p>
-    <p><strong>Overview:</strong> {{ movie.Overview }}</p>
-    <p><strong>Director:</strong> {{ movie.Director }}</p>
-    <p><strong>Stars:</strong> {{ movie.Star1 }}, {{ movie.Star2 }}, {{ movie.Star3 }}, {{ movie.Star4 }}</p>
+    <div class="movie-header">
+        <div class="movie-title">
+            <h2>{{ movie.Series_Title }}</h2>
+            <p><strong>Genre:</strong> <span class="movie-info-text">{{ movie.Genre }}</span></p>
+            <p><strong>Released Year:</strong> <span class="movie-info-text">{{ movie.Released_Year }}</span></p>
+            <p><strong>IMDB Rating:</strong> <span class="movie-info-text">{{ movie.IMDB_Rating }}</span></p>
+            <p><strong>Director:</strong> <span class="movie-info-text">{{ movie.Director }}</span></p>
+            <p><strong>Stars:</strong> <span class="movie-info-text">{{ movie.Star1 }}, {{ movie.Star2 }}, {{ movie.Star3 }}, {{ movie.Star4 }}</span></p>
+        </div>
+        <div class="movie-poster-wrapper">
+            <!-- If no poster_url is found, display a fallback image -->
+            <img src="{{ poster_url if poster_url else url_for('static', filename='images/perf_fallback.png') }}" alt="{{ movie.Series_Title }}" class="movie-poster">
+        </div>
+    </div>
+
+    <div class="movie-overview">
+        <h3>Overview</h3>
+        <p class="movie-info-text">{{ movie.Overview }}</p>
+    </div>
+
+    <!-- Display the trailer if available -->
+    {% if trailer_url %}
+        <h3>Trailer</h3>
+        <div class="movie-trailer">
+            <iframe width="100%" height="400px" src="{{ trailer_url }}" frameborder="0" allowfullscreen></iframe>
+        </div>
+    {% else %}
+        <p>No trailer available.</p>
+    {% endif %}
 
     <h3>Recommended Movies</h3>
     <div class="movie-grid">
@@ -16,10 +38,143 @@
             <div class="movie-card">
                 <img src="{{ rec_movie.Poster_Link }}" alt="{{ rec_movie.Series_Title }}">
                 <h4>{{ rec_movie.Series_Title }}</h4>
-                <!-- Use the Index field from the dictionary -->
                 <a href="{{ url_for('movie_details', movie_index=rec_movie.Index) }}">View Details</a>
             </div>
         {% endfor %}
     </div>
 </section>
+
+<style>
+    /* Main movie detail section */
+    .movie-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        margin-bottom: 2rem;
+        gap: 20px;
+    }
+
+    .movie-title {
+        flex: 2;
+    }
+
+    .movie-title h2 {
+        margin: 0;
+        font-size: 2rem;
+        color: #000; /* Black for title */
+    }
+
+    .movie-title p {
+        margin: 0.5rem 0;
+        font-size: 1rem;
+        color: #000; /* Black for details */
+    }
+
+    .movie-title p strong {
+        font-weight: bold;
+        color: #000; /* Black for bold text */
+    }
+
+    .movie-info-text {
+        font-weight: bold;
+        color: #000; /* Black for info text */
+    }
+
+    .movie-poster-wrapper {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+    }
+
+    .movie-poster {
+        width: 100%;
+        max-width: 250px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Movie overview */
+    .movie-overview {
+        margin-bottom: 2rem;
+    }
+
+    .movie-overview h3 {
+        color: #000; /* Black for heading */
+        margin-bottom: 1rem;
+    }
+
+    .movie-overview p {
+        font-size: 1.1rem;
+        line-height: 1.6;
+        color: #000; /* Black for overview text */
+    }
+
+    /* Trailer section */
+    .movie-trailer {
+        margin-bottom: 2rem;
+    }
+
+    /* Recommended movies grid */
+    .movie-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 20px;
+    }
+
+    .movie-card {
+        text-align: center;
+        background-color: #f4f4f4; /* Lighter background for contrast */
+        padding: 1rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .movie-card img {
+        width: 100%;
+        border-radius: 5px;
+        margin-bottom: 10px;
+    }
+
+    .movie-card h4 {
+        color: #000; /* Black for movie titles */
+        margin-bottom: 10px;
+        font-size: 1.1rem;
+    }
+
+    .movie-card a {
+        color: #e74c3c; /* Red for view details link */
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 0.9rem;
+    }
+
+    .movie-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Responsive layout adjustments */
+    @media (max-width: 768px) {
+        .movie-header {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .movie-title {
+            text-align: center;
+        }
+
+        .movie-poster {
+            max-width: 200px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .movie-trailer iframe {
+            height: 250px;
+        }
+    }
+</style>
+
 {% endblock %}

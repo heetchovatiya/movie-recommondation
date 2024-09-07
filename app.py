@@ -2,6 +2,8 @@ from flask import Flask, render_template, request, redirect, url_for
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+import requests
+from bs4 import BeautifulSoup 
 
 app = Flask(__name__)
 
@@ -17,6 +19,42 @@ movies_df['combined_features'] = movies_df.apply(lambda row: row['Genre'] + " " 
 tfidf = TfidfVectorizer(stop_words='english')
 tfidf_matrix = tfidf.fit_transform(movies_df['combined_features'])
 cosine_sim = cosine_similarity(tfidf_matrix, tfidf_matrix)
+
+
+def scrape_imdb_movie_details(imdb_id):
+    url = f"https://www.imdb.com/title/{imdb_id}/"
+    response = requests.get(url)
+    
+    if response.status_code == 200:
+        soup = BeautifulSoup(response.text, 'html.parser')
+
+        # Scrape the poster image
+        poster = soup.find('div', class_='poster').a.img['src']
+        
+        # Scrape the trailer link
+        trailer_section = soup.find('a', {'data-testid': 'hero-media__slate'})
+        if trailer_section:
+            trailer_url = f"https://www.imdb.com{trailer_section['href']}"
+        else:
+            trailer_url = None
+
+        return poster, trailer_url
+    else:
+        return None, None
+    
+
+def get_imdb_id(movie_title, release_year):
+    search_url = f"https://www.imdb.com/find?q={movie_title.replace(' ', '+')}+{release_year}&s=tt&ttype=ft"
+    response = requests.get(search_url)
+    soup = BeautifulSoup(response.text, 'html.parser')
+    
+    # Extract the first search result
+    result = soup.find('td', class_='result_text')
+    if result and result.a:
+        imdb_id = result.a['href'].split('/')[2]  # Extract IMDb ID
+        return imdb_id
+    return None
+
 
 @app.route('/')
 def home():
@@ -51,17 +89,31 @@ def search_movies():
 
 @app.route('/movie/<int:movie_index>')
 def movie_details(movie_index):
-    # Check if the movie index is valid
     if 0 <= movie_index < len(movies_df):
-        movie = movies_df.iloc[movie_index]  # Fetch the movie using the index
+        movie = movies_df.iloc[movie_index]
 
-        # Get recommended movies (this function should return movies with their original indices)
+        # Get IMDb ID dynamically by title and year
+        imdb_id = get_imdb_id(movie['Series_Title'], movie['Released_Year'])
+
+        # Scrape the poster and trailer using the IMDb ID
+        if imdb_id:
+            poster_url, trailer_url = scrape_imdb_movie_details(imdb_id)
+        else:
+            poster_url, trailer_url = None, None
+
+        # Fallback to the locally stored image if the IMDb scraping fails
+        if not poster_url:
+            poster_url = movie['Poster_Link']
+
         recommended_movies = get_movie_recommendations(movie_index)
 
-        # Pass the movie and recommended movies to the template
-        return render_template('movie_details.html', movie=movie, recommended_movies=recommended_movies)
-
-    # If index is invalid, redirect to home page
+        return render_template(
+            'movie_details.html',
+            movie=movie,
+            poster_url=poster_url,
+            trailer_url=trailer_url,
+            recommended_movies=recommended_movies
+        )
     return redirect(url_for('home'))
 
 
