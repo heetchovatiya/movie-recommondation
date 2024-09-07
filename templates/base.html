@@ -101,7 +101,7 @@ footer {
     <header>
         <a href="{{ url_for('home') }}">Home</a>
         <h1>Movie Recommendation App</h1>
-        <form action="{{ url_for('search') }}" method="get">
+        <form action="{{ url_for('search_movies') }}" method="get">
             <input type="text" name="query" placeholder="Search for movies..." required>
             <button type="submit">Search</button>
         </form>

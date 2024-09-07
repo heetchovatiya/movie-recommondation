@@ -26,19 +26,26 @@ def home():
     return render_template('home.html', top_movies=top_movies)
 
 @app.route('/search', methods=['GET'])
-def search():
-    query = request.args.get('query', '')
+def search_movies():
+    query = request.args.get('query')
     if query:
-        matching_movies = movies_df[movies_df['Series_Title'].str.contains(query, case=False, na=False)]
-        return render_template('home.html', top_movies=matching_movies)
+        # Filter movies based on search query
+        search_results = movies_df[movies_df['Series_Title'].str.contains(query, case=False, na=False)]
+        return render_template('search_results.html', query=query, movies=search_results)
     return redirect(url_for('home'))
 
 @app.route('/movie/<int:movie_index>')
 def movie_details(movie_index):
     if 0 <= movie_index < len(movies_df):
+        # Get the specific movie
         movie = movies_df.iloc[movie_index]
+        
+        # Get recommendations (this should return movies with their original indices)
         recommended_movies = get_movie_recommendations(movie_index)
+        
+        # Ensure the recommended movies contain the correct Index field from the original dataset
         return render_template('movie_details.html', movie=movie, recommended_movies=recommended_movies)
+    
     return redirect(url_for('home'))
 
 def get_movie_recommendations(movie_index):
